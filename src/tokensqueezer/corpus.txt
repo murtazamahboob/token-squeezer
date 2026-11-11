@@ -1,0 +1,81 @@
+Large language models read text as tokens, not as words or characters. A token is a
+chunk of text, usually part of a word, and every request sent to a model is measured
+in tokens. Long prompts cost more money, take longer to process, and leave less room
+for the answer. Smart users therefore learn to write shorter prompts that keep the
+same meaning. The goal is simple: say the same thing with fewer tokens.
+
+Prompt compression is the art of removing words that do not change the meaning. Many
+prompts contain filler words such as very, really, just, and actually. These words add
+warmth to human conversation but they add nothing to a machine instruction. Removing
+them usually saves ten to twenty percent of the tokens with no loss of information.
+Long phrases can often be replaced by short ones. The phrase in order to can simply
+become to. The phrase due to the fact that can become because. A large number of can
+become many. Each replacement is small, but across a long document they add up.
+
+Abbreviations are another powerful tool. Artificial intelligence becomes AI. Machine
+learning becomes ML. Natural language processing becomes NLP. Large language model
+becomes LLM. Once a term has been introduced, the short form carries the same meaning
+and costs far fewer tokens. Technical writing is full of repeated long phrases, and
+replacing them with standard abbreviations is one of the easiest wins in prompt
+engineering. The reader is a model, not a person, so there is no need to spell out
+every term in full.
+
+Repetition is the biggest source of waste in real prompts. People often repeat the
+same instruction in different words, paste the same context twice, or restate a
+requirement three times because they are worried the model will miss it. Modern
+models are good at following a single clear instruction. Repeating it does not make
+the model more likely to obey it. It only costs tokens. A good compression pipeline
+detects near duplicate sentences and keeps only the first copy.
+
+Every prompt has a token budget. The budget is the maximum number of tokens the
+prompt may use. A system message, a few examples, the retrieved context, and the user
+question all compete for the same budget. The most important parts must be protected.
+The system message defines the behaviour of the assistant, so it should never be cut.
+The user question is the actual task, so it should never be cut either. The context
+and the examples are useful, but they can be compressed or shortened when the budget
+is tight. A budget planner decides what to keep, what to compress, and what to drop.
+
+Measuring compression matters. It is not enough to make a prompt shorter. The
+compressed prompt must still work. The best way to check this is to measure retention.
+Keywords are the important words of the original text. If most of them survive
+compression, the meaning probably survived too. Key facts are the short statements
+that carry the information. If most of the facts are still present after compression,
+the result is trustworthy. A good benchmark reports both the tokens saved and the
+meaning retained, side by side, so the trade off is visible.
+
+Python is a good language for building token tools because it is simple and readable.
+A tokenizer splits text into tokens. A compressor rewrites text to use fewer tokens.
+A planner fits text into a budget. A benchmark measures the results. Each piece is
+small and easy to test. Together they form a toolkit that helps developers control
+their token usage and their costs. The toolkit runs entirely offline, with no network
+connection and no API key, so it is fast, private, and deterministic.
+
+Token costs add up quickly in production systems. A chatbot that serves ten thousand
+users a day might process millions of tokens every hour. Saving twenty percent of
+those tokens can save hundreds of dollars per month. It also makes the system faster,
+because shorter prompts take less time to process. For developers who build products
+on top of language models, token efficiency is not a minor optimisation. It is one of
+the main levers that control cost, speed, and quality at the same time.
+
+The history of compression is long. Early computers had very little memory, so
+programmers learned to store data in as few bytes as possible. Zip files, image
+formats, and video codecs all exist to remove redundancy. Prompt compression is the
+same idea applied to language. Natural language is highly redundant. We repeat
+ourselves, we use long words where short ones would do, and we add politeness that
+machines do not need. Removing that redundancy is safe when it is done carefully,
+with measurements that prove the meaning is still there.
+
+A good compression system is transparent. It should show exactly what it changed
+and why. For every stage of the pipeline, it should report how many tokens were
+saved. For every sentence that was removed, it should say which sentence it was
+similar to. For every abbreviation, it should keep a map so the result can be read
+back. Transparency builds trust. When users can see the savings and the retention
+numbers, they can decide for themselves how much compression is safe for their use
+case. Some tasks need every word. Others can survive aggressive compression.
+
+The future of prompt engineering is efficient by default. Models are getting cheaper
+and faster, but the best systems will still use fewer tokens than their competitors.
+They will compress context, summarise history, drop irrelevant details, and keep only
+what matters. The tools in this project are a step in that direction. They are small,
+they are offline, and they are honest about what they measure. Anyone can run them,
+inspect the results, and adapt them to their own prompts.
