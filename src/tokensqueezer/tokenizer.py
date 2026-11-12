@@ -65,7 +65,7 @@ def train_bpe(corpus: str, num_merges: int = DEFAULT_NUM_MERGES) -> list[tuple[b
                     new_word.append(word[i])
                     i += 1
             new_words.append(new_word)
-          words = new_words
+        words = new_words
     return merges
 
 
